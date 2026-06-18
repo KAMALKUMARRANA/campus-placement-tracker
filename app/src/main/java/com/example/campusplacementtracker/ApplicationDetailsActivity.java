@@ -1,6 +1,7 @@
 package com.example.campusplacementtracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
 
     TextView tvCompany, tvRole, tvPackage, tvEligibility, tvApplied, tvInterview;
     Spinner spinnerStatus;
-    Button btnUpdate, btnBack;
+    Button btnUpdate, btnDelete, btnBack;
 
     String rowId, currentStatus;
     Database db;
@@ -34,6 +35,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
         tvInterview = findViewById(R.id.tvDetailInterview);
         spinnerStatus = findViewById(R.id.spinnerStatus);
         btnUpdate = findViewById(R.id.btnUpdateStatus);
+        btnDelete = findViewById(R.id.btnDeleteApplication);
         btnBack = findViewById(R.id.btnDetailsBack);
 
         db = new Database(getApplicationContext());
@@ -56,11 +58,9 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
         tvApplied.setText("Applied on: " + appliedDate);
         tvInterview.setText("Interview: " + interviewDate + " at " + interviewTime);
 
-        // Set up the status dropdown
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, statusOptions);
         spinnerStatus.setAdapter(adapter);
 
-        // Pre-select the current status in the dropdown
         for (int i = 0; i < statusOptions.length; i++) {
             if (statusOptions[i].equals(currentStatus)) {
                 spinnerStatus.setSelection(i);
@@ -75,6 +75,25 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
                 db.updateStatus(rowId, newStatus);
                 Toast.makeText(getApplicationContext(), "Status updated to: " + newStatus, Toast.LENGTH_SHORT).show();
                 finish();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(ApplicationDetailsActivity.this)
+                        .setTitle("Delete Application")
+                        .setMessage("Are you sure you want to delete this application to " + company + "?")
+                        .setPositiveButton("Delete", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface dialog, int which) {
+                                db.deleteApplication(rowId);
+                                Toast.makeText(getApplicationContext(), "Application deleted", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
             }
         });
 

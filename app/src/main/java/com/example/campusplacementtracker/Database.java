@@ -168,4 +168,9 @@ public class Database extends SQLiteOpenHelper {
         db.update("applications", cv, "rowid=?", new String[]{rowId});
         db.close();
     }
+    public void deleteApplication(String rowId) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("applications", "rowid=?", new String[]{rowId});
+        db.close();
+    }
 }

@@ -5,5 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.CampusPlacementTracker" parent="Base.Theme.CampusPlacementTracker" />
+    <style name="Theme.CampusPlacementTracker" parent="Base.Theme.CampusPlacementTracker" >
+        <item name="colorPrimary">@color/primaryBlue</item>
+        <item name="colorPrimaryVariant">@color/primaryBlueDark</item>
+        <item name="android:windowBackground">@color/lightBackground</item>
+    </style>
 </resources>
