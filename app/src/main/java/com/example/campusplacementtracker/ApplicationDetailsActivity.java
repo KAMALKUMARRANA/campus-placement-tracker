@@ -16,14 +16,18 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
     TextView tvCompany, tvRole, tvPackage, tvEligibility, tvApplied, tvInterview;
     Spinner spinnerStatus;
     Button btnUpdate, btnDelete, btnBack;
+    View cardAdminActions;
 
     String rowId, currentStatus;
     Database db;
 
     String[] statusOptions = {"Applied", "Interview Scheduled", "Selected", "Rejected"};
 
+    boolean isAdmin = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_details);
 
@@ -37,6 +41,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btnUpdateStatus);
         btnDelete = findViewById(R.id.btnDeleteApplication);
         btnBack = findViewById(R.id.btnDetailsBack);
+        cardAdminActions = findViewById(R.id.cardAdminActions);
 
         db = new Database(getApplicationContext());
 
@@ -50,6 +55,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
         String interviewTime = it.getStringExtra("interviewtime");
         currentStatus = it.getStringExtra("status");
         rowId = it.getStringExtra("rowid");
+        isAdmin = it.getBooleanExtra("isAdmin", false);
 
         tvCompany.setText(company);
         tvRole.setText("Role: " + role);
@@ -66,6 +72,12 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
                 spinnerStatus.setSelection(i);
                 break;
             }
+        }
+
+        // Only admin can update status
+        if (!isAdmin) {
+            cardAdminActions.setVisibility(View.GONE);
+            btnDelete.setVisibility(View.GONE);
         }
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {

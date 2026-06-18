@@ -14,13 +14,14 @@ import android.widget.Toast;
 public class ProfileActivity extends AppCompatActivity {
 
     TextView tvWelcome;
-    EditText edFullName, edRollNo, edBranch, edCgpa;
+    EditText edFullName, edRollNo, edBranch, edCgpa, edEmail;
     Button btnSaveProfile, btnGoCompanies, btnGoApplications, btnLogout;
     String username;
     Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -29,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
         edRollNo = findViewById(R.id.edRollNo);
         edBranch = findViewById(R.id.edBranch);
         edCgpa = findViewById(R.id.edCgpa);
+        edEmail = findViewById(R.id.edEmail);
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
         btnGoCompanies = findViewById(R.id.btnGoCompanies);
         btnGoApplications = findViewById(R.id.btnGoApplications);
@@ -47,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         edRollNo.setText(profile[1]);
         edBranch.setText(profile[2]);
         edCgpa.setText(profile[3]);
+        edEmail.setText(profile[4]);
 
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override

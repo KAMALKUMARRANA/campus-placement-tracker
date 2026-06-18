@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="#F4F6FA">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,77 +14,142 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Student Profile"
-            android:textSize="24sp"
+            android:text="My Profile"
+            android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginBottom="20dp" />
+            android:textColor="#1565C0"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome"
+            android:text="Welcome, Student"
             android:textSize="16sp"
-            android:layout_marginBottom="20dp" />
+            android:textColor="#757575"
+            android:layout_marginBottom="24dp" />
 
-        <EditText
-            android:id="@+id/edFullName"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full Name"
-            android:inputType="textPersonName"
-            android:layout_marginBottom="12dp" />
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#E0E0E0"
+            android:layout_marginBottom="24dp">
 
-        <EditText
-            android:id="@+id/edRollNo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Roll Number"
-            android:inputType="text"
-            android:layout_marginBottom="12dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <EditText
-            android:id="@+id/edBranch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Branch (e.g. MCA, B.Tech CSE)"
-            android:inputType="text"
-            android:layout_marginBottom="12dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Full Name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edFullName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/edCgpa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="CGPA"
-            android:inputType="numberDecimal"
-            android:layout_marginBottom="20dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Roll Number"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edRollNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/btnSaveProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SAVE PROFILE"
-            android:layout_marginBottom="12dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email Address"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:enabled="false" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Branch"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edBranch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Current CGPA"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edCgpa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSaveProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="UPDATE PROFILE"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp"
+                    android:backgroundTint="#2E7D32" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGoCompanies"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="VIEW COMPANIES"
-            android:layout_marginBottom="12dp" />
+            android:layout_height="56dp"
+            android:text="Explore Companies"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:backgroundTint="#1565C0"
+            android:layout_marginBottom="12dp"
+            app:icon="@android:drawable/ic_menu_search" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGoApplications"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MY APPLICATIONS"
-            android:layout_marginBottom="12dp" />
+            android:layout_height="56dp"
+            android:text="My Applications"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:backgroundTint="#1565C0"
+            android:layout_marginBottom="24dp"
+            app:icon="@android:drawable/ic_menu_agenda" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LOGOUT" />
+            android:layout_height="52dp"
+            android:text="LOGOUT"
+            android:textColor="#D32F2F"
+            app:strokeColor="#D32F2F"
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 </ScrollView>

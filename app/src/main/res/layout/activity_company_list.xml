@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:background="#F4F6FA"
     android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Companies Visiting Campus"
-        android:textSize="22sp"
+        android:text="Available Jobs"
+        android:textSize="26sp"
         android:textStyle="bold"
+        android:textColor="#1565C0"
         android:layout_marginBottom="16dp" />
 
-    <EditText
-        android:id="@+id/edSearchCompany"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search company or role..."
-        android:inputType="text"
-        android:padding="10dp"
-        android:background="@android:drawable/edit_text"
-        android:layout_marginBottom="12dp" />
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="16dp"
+        app:startIconDrawable="@android:drawable/ic_menu_search"
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edSearchCompany"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ListView
         android:id="@+id/listViewCompanies"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBackToProfile"
-        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BACK"
-        android:layout_marginTop="12dp" />
+        android:text="← BACK TO PROFILE"
+        android:textColor="#757575"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
