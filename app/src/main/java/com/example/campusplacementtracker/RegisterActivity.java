@@ -1,6 +1,7 @@
 package com.example.campusplacementtracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,16 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (!ValidationHelper.isValidEmail(email)) {
+                    Toast.makeText(getApplicationContext(), "Invalid email format", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!ValidationHelper.isValidPassword(password)) {
+                    Toast.makeText(getApplicationContext(), "Password must be 6+ chars with 1 digit and 1 special char", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 if (!password.equals(confirm)) {
                     Toast.makeText(getApplicationContext(), "Password and confirm password do not match", Toast.LENGTH_SHORT).show();
                     return;
@@ -58,10 +69,17 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                db.register(username, email, password);
-                Toast.makeText(getApplicationContext(), "Registration successful. Please login.", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                finish();
+                new AlertDialog.Builder(RegisterActivity.this)
+                    .setTitle("Confirm Registration")
+                    .setMessage("Create an account for " + username + "?")
+                    .setPositiveButton("Register", (dialog, which) -> {
+                        db.register(username, email, password);
+                        Toast.makeText(getApplicationContext(), "Registration successful. Please login.", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                        finish();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
             }
         });
 

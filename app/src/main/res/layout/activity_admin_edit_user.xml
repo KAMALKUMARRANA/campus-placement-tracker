@@ -13,20 +13,13 @@
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/tvEditUserTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Join Us"
-            android:textSize="28sp"
+            android:text="Edit Student Profile"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="@color/primaryBlue"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create an account to start tracking"
-            android:textSize="16sp"
-            android:textColor="@color/textGray"
             android:layout_marginBottom="24dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -48,80 +41,126 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username"
+                    android:hint="Full Name"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginBottom="12dp">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegUsername"
-                        android:textColor="@color/textDark"
+                        android:id="@+id/edAdminFullName"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textDark" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email Address"
+                    android:hint="Roll Number"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginBottom="12dp">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegEmail"
-                        android:textColor="@color/textDark"
+                        android:id="@+id/edAdminRollNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress" />
+                        android:textColor="@color/textDark" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="Branch / Degree"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="12dp"
-                    app:passwordToggleEnabled="true">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegPassword"
-                        android:textColor="@color/textDark"
+                    android:layout_marginBottom="12dp">
+                    <Spinner
+                        android:id="@+id/spinnerAdminBranch"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+                        android:layout_height="64dp"
+                        android:background="@android:drawable/btn_dropdown" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Confirm Password"
+                    android:hint="CGPA"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="20dp"
-                    app:passwordToggleEnabled="true">
+                    android:layout_marginBottom="12dp">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegConfirm"
-                        android:textColor="@color/textDark"
+                        android:id="@+id/edAdminCgpa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+                        android:textColor="@color/textDark"
+                        android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tech Stack"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="20dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edAdminTechStack"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textDark" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Account Status"
+                    android:textStyle="bold"
+                    android:textColor="@color/textGray"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerAccountStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@android:drawable/btn_dropdown" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnRegister"
+                    android:id="@+id/btnAdminSaveUser"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:text="CREATE ACCOUNT"
+                    android:text="SAVE CHANGES"
                     android:textStyle="bold"
                     app:cornerRadius="16dp"
                     android:elevation="4dp"
-                    android:backgroundTint="@color/primaryBlue" />
+                    android:backgroundTint="@color/accentGreen"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAdminManualApply"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:text="REGISTER FOR INTERVIEW"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp"
+                    android:elevation="4dp"
+                    android:backgroundTint="@color/primaryBlue"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAdminResetPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:text="RESET PASSWORD"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp"
+                    android:elevation="4dp"
+                    android:backgroundTint="@color/textGray" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/tvGoLogin"
+            android:id="@+id/btnAdminEditBack"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Already have an account? Login"
-            android:textColor="@color/primaryBlue"
+            android:layout_height="64dp"
+            android:text="← CANCEL"
+            android:textColor="@color/textGray"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/lightBackground"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvCompanyWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Company Dashboard"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/primaryBlue"
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="center_horizontal" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/cardBackground"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvCompanyTotalApps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryBlue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending Applications"
+                android:textSize="16sp"
+                android:textColor="@color/textGray" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCompanyViewApps"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="View All Candidates"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        android:elevation="4dp"
+        android:backgroundTint="@color/primaryBlue"
+        android:layout_marginBottom="16dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCompanyManageSlots"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Add Interview Slots"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        android:elevation="4dp"
+        android:backgroundTint="@color/accentGreen"
+        android:layout_marginBottom="16dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCompanyViewSlots"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="View Interview Schedule"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        android:elevation="4dp"
+        android:backgroundTint="@color/accentGreen"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCompanyChangePass"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:text="Password"
+            android:textStyle="bold"
+            app:cornerRadius="16dp"
+            android:elevation="4dp"
+            android:backgroundTint="@color/textGray"
+            android:layout_marginEnd="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCompanyLogout"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:text="LOGOUT"
+            android:textColor="#D32F2F"
+            app:strokeColor="#D32F2F"
+            app:cornerRadius="16dp"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+</LinearLayout>

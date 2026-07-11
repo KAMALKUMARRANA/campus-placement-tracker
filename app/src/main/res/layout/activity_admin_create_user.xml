@@ -15,18 +15,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Join Us"
-            android:textSize="28sp"
+            android:text="Create Student Account"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="@color/primaryBlue"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create an account to start tracking"
-            android:textSize="16sp"
-            android:textColor="@color/textGray"
             android:layout_marginBottom="24dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -52,24 +44,37 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginBottom="12dp">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegUsername"
-                        android:textColor="@color/textDark"
+                        android:id="@+id/edAdminCreateUsername"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textDark" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email Address"
+                    android:hint="Email"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginBottom="12dp">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegEmail"
-                        android:textColor="@color/textDark"
+                        android:id="@+id/edAdminCreateEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/textDark" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Branch / Degree"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="12dp">
+                    <Spinner
+                        android:id="@+id/spinnerAdminCreateBranch"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:background="@android:drawable/btn_dropdown" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -80,33 +85,18 @@
                     android:layout_marginBottom="12dp"
                     app:passwordToggleEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegPassword"
-                        android:textColor="@color/textDark"
+                        android:id="@+id/edAdminCreatePassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Confirm Password"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="20dp"
-                    app:passwordToggleEnabled="true">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edRegConfirm"
-                        android:textColor="@color/textDark"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textColor="@color/textDark" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnRegister"
+                    android:id="@+id/btnAdminCreateUser"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:text="CREATE ACCOUNT"
+                    android:text="REGISTER STUDENT"
                     android:textStyle="bold"
                     app:cornerRadius="16dp"
                     android:elevation="4dp"
@@ -116,12 +106,12 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/tvGoLogin"
+            android:id="@+id/btnAdminCreateBack"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Already have an account? Login"
-            android:textColor="@color/primaryBlue"
+            android:layout_height="64dp"
+            android:text="← CANCEL"
+            android:textColor="@color/textGray"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>

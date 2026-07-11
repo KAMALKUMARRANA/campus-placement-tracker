@@ -119,13 +119,13 @@ public class MyApplicationsActivity extends AppCompatActivity {
 
     private void applyStatusColor(TextView view, String text) {
         if (text.contains("Selected")) {
-            view.setTextColor(0xFF2E7D32); // green
+            view.setTextColor(getResources().getColor(R.color.accentGreen));
         } else if (text.contains("Rejected")) {
-            view.setTextColor(0xFFC62828); // red
-        } else if (text.contains("Interview Scheduled")) {
-            view.setTextColor(0xFFEF6C00); // orange
+            view.setTextColor(0xFFD32F2F); // Red
+        } else if (text.contains("Round") || text.contains("Scheduled")) {
+            view.setTextColor(0xFFEF6C00); // Orange
         } else {
-            view.setTextColor(0xFF1565C0); // blue (Applied)
+            view.setTextColor(getResources().getColor(R.color.primaryBlue));
         }
     }
 

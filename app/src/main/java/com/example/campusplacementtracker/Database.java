@@ -12,35 +12,75 @@ import java.util.ArrayList;
 public class Database extends SQLiteOpenHelper {
 
     public Database(@Nullable Context context) {
-        super(context, "campusplacement", null, 2);
+        super(context, "campusplacement", null, 9);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Table 1: users - stores login + student profile details + role
+        // Table 1: users - stores login + student/company profile details + role + account status
         String usersTable = "create table users(username text primary key, email text, password text, " +
-                "fullname text, rollno text, branch text, cgpa text, role text)";
+                "fullname text, rollno text, branch text, cgpa text, role text, status text, tech_stack text)";
         db.execSQL(usersTable);
-
         // Table 2: applications - stores every job application a student makes
         String applicationsTable = "create table applications(username text, company text, role text, " +
                 "package text, eligibility text, applieddate text, interviewdate text, interviewtime text, status text)";
         db.execSQL(applicationsTable);
 
+        // Table 3: companies - stores company details added by admin
+        String companiesTable = "create table companies(name text primary key, role text, package text, eligibility text, tech_stack text, min_cgpa text)";
+        db.execSQL(companiesTable);
+
+        // Table 4: slots - stores available interview slots for companies
+        String slotsTable = "create table slots(id integer primary key autoincrement, company text, date text, time text, is_booked integer)";
+        db.execSQL(slotsTable);
+
+        // Table 5: cgpa_requests - requests from students to update their CGPA
+        String cgpaRequestsTable = "create table cgpa_requests(id integer primary key autoincrement, username text, requested_cgpa text, status text)";
+        db.execSQL(cgpaRequestsTable);
+
         // Insert default admin
-        db.execSQL("insert into users values('admin', 'admin@placement.com', 'admin123', 'Admin User', '0', 'Placement Office', '10', 'admin')");
+        db.execSQL("insert into users values('admin', 'admin@placement.com', 'admin123', 'Admin User', '0', 'Placement Office', '10', 'admin', 'active', '')");
+
+        // Insert some default companies with diverse requirements
+        db.execSQL("insert into companies values('Google', 'Software Engineer', '30 LPA', 'MCA, B.Tech CSE', 'Java, Go, C++', '8.5')");
+        db.execSQL("insert into companies values('Microsoft', 'SDE-1', '25 LPA', 'B.Tech, M.Tech, MCA', 'C#, Azure, SQL', '8.0')");
+        db.execSQL("insert into companies values('Amazon', 'SDE', '22 LPA', 'Any Technical Degree (B.Tech, BCA, MCA)', 'Linux, AWS, Java', '7.5')");
+        db.execSQL("insert into companies values('Apple', 'iOS Developer', '28 LPA', 'B.Tech, M.Tech', 'Swift, Objective-C', '8.0')");
+        db.execSQL("insert into companies values('Netflix', 'Frontend Engineer', '35 LPA', 'B.Tech, MCA, BCA', 'React, Node.js', '9.0')");
+        db.execSQL("insert into companies values('Meta', 'Product Engineer', '32 LPA', 'B.Tech, MCA', 'Python, PHP, React', '8.5')");
+        db.execSQL("insert into companies values('TCS', 'Ninja/Digital', '3.6/7 LPA', 'BCA, B.Sc, B.Tech, MCA', 'C, C++, Java', '6.0')");
+        db.execSQL("insert into companies values('Infosys', 'Systems Engineer', '4.5 LPA', 'B.A, B.Sc, BCA, B.Tech', 'Java, Python', '6.5')");
+        db.execSQL("insert into companies values('Wipro', 'Project Engineer', '4.0 LPA', 'B.Sc, BCA, MCA', 'Java, .NET', '6.0')");
+
+        // Create default company logins (Standardized Passwords)
+        db.execSQL("insert into users values('google_hr', 'hr@google.com', 'google123', 'Google', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('microsoft_hr', 'hr@microsoft.com', 'microsoft123', 'Microsoft', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('amazon_hr', 'hr@amazon.com', 'amazon123', 'Amazon', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('apple_hr', 'hr@apple.com', 'apple123', 'Apple', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('netflix_hr', 'hr@netflix.com', 'netflix123', 'Netflix', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('meta_hr', 'hr@meta.com', 'meta123', 'Meta', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('tcs_hr', 'hr@tcs.com', 'tcs123', 'TCS', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('infosys_hr', 'hr@infosys.com', 'infosys123', 'Infosys', '', '', '', 'company', 'active', '')");
+        db.execSQL("insert into users values('wipro_hr', 'hr@wipro.com', 'wipro123', 'Wipro', '', '', '', 'company', 'active', '')");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS users");
         db.execSQL("DROP TABLE IF EXISTS applications");
+        db.execSQL("DROP TABLE IF EXISTS companies");
+        db.execSQL("DROP TABLE IF EXISTS slots");
+        db.execSQL("DROP TABLE IF EXISTS cgpa_requests");
         onCreate(db);
     }
 
     // ---------- USER / LOGIN / REGISTER METHODS ----------
 
     public void register(String username, String email, String password) {
+        registerUser(username, email, password, "student");
+    }
+
+    public void registerUser(String username, String email, String password, String role) {
         ContentValues cv = new ContentValues();
         cv.put("username", username);
         cv.put("email", email);
@@ -48,8 +88,10 @@ public class Database extends SQLiteOpenHelper {
         cv.put("fullname", "");
         cv.put("rollno", "");
         cv.put("branch", "");
-        cv.put("cgpa", "");
-        cv.put("role", "student");
+        cv.put("cgpa", "0");
+        cv.put("role", role);
+        cv.put("status", "active");
+        cv.put("tech_stack", "");
         SQLiteDatabase db = getWritableDatabase();
         db.insert("users", null, cv);
         db.close();
@@ -59,7 +101,7 @@ public class Database extends SQLiteOpenHelper {
         String role = "";
         String[] args = {username, password};
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery("select role from users where username=? and password=?", args);
+        Cursor c = db.rawQuery("select role from users where username=? and password=? and status='active'", args);
         if (c.moveToFirst()) {
             role = c.getString(0);
         }
@@ -83,29 +125,31 @@ public class Database extends SQLiteOpenHelper {
 
     // ---------- STUDENT PROFILE METHODS ----------
 
-    public void updateProfile(String username, String fullname, String rollno, String branch, String cgpa) {
+    public void updateProfile(String username, String fullname, String rollno, String branch, String cgpa, String techStack) {
         ContentValues cv = new ContentValues();
         cv.put("fullname", fullname);
         cv.put("rollno", rollno);
         cv.put("branch", branch);
         cv.put("cgpa", cgpa);
+        cv.put("tech_stack", techStack);
         SQLiteDatabase db = getWritableDatabase();
         db.update("users", cv, "username=?", new String[]{username});
         db.close();
     }
 
-    // returns: [fullname, rollno, branch, cgpa, email]
+    // returns: [fullname, rollno, branch, cgpa, email, role, tech_stack]
     public String[] getProfile(String username) {
-        String[] profile = {"", "", "", "", ""};
+        String[] profile = {"", "", "", "0", "", "", ""};
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery("select fullname, rollno, branch, cgpa, email from users where username=?",
+        Cursor c = db.rawQuery("select fullname, rollno, branch, cgpa, email, role, tech_stack from users where username=?",
                 new String[]{username});
         if (c.moveToFirst()) {
-            profile[0] = c.getString(0);
-            profile[1] = c.getString(1);
-            profile[2] = c.getString(2);
-            profile[3] = c.getString(3);
-            profile[4] = c.getString(4);
+            for (int i = 0; i < 7; i++) {
+                String val = c.getString(i);
+                if (val != null) {
+                    profile[i] = val;
+                }
+            }
         }
         c.close();
         db.close();
@@ -185,6 +229,26 @@ public class Database extends SQLiteOpenHelper {
         return list;
     }
 
+    // Returns each application for a specific company
+    public ArrayList<String> getCompanyApplications(String companyName) {
+        ArrayList<String> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select rowid, company, role, package, eligibility, applieddate, " +
+                        "interviewdate, interviewtime, status, username from applications where company=?",
+                new String[]{companyName});
+        if (c.moveToFirst()) {
+            do {
+                String row = c.getString(1) + "|" + c.getString(2) + "|" + c.getString(3) + "|" +
+                        c.getString(4) + "|" + c.getString(5) + "|" + c.getString(6) + "|" +
+                        c.getString(7) + "|" + c.getString(8) + "|" + c.getString(0) + "|" + c.getString(9);
+                list.add(row);
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return list;
+    }
+
     public void updateStatus(String rowId, String newStatus) {
         ContentValues cv = new ContentValues();
         cv.put("status", newStatus);
@@ -196,5 +260,238 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("applications", "rowid=?", new String[]{rowId});
         db.close();
+    }
+
+    // ---------- COMPANY METHODS ----------
+
+    public void addCompany(String name, String role, String pkg, String eligibility, String techStack, String minCgpa) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", name);
+        cv.put("role", role);
+        cv.put("package", pkg);
+        cv.put("eligibility", eligibility);
+        cv.put("tech_stack", techStack);
+        cv.put("min_cgpa", minCgpa);
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert("companies", null, cv);
+        db.close();
+    }
+
+    public ArrayList<String[]> getCompanies() {
+        ArrayList<String[]> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select * from companies", null);
+        if (c.moveToFirst()) {
+            do {
+                list.add(new String[]{c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5)});
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return list;
+    }
+
+    public void deleteCompany(String name) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("companies", "name=?", new String[]{name});
+        db.close();
+    }
+
+    public void updateCompany(String oldName, String name, String role, String pkg, String eligibility, String techStack, String minCgpa) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", name);
+        cv.put("role", role);
+        cv.put("package", pkg);
+        cv.put("eligibility", eligibility);
+        cv.put("tech_stack", techStack);
+        cv.put("min_cgpa", minCgpa);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update("companies", cv, "name=?", new String[]{oldName});
+        db.close();
+    }
+
+    public String getUserPassword(String username) {
+        String pass = "";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select password from users where username=?", new String[]{username});
+        if (c.moveToFirst()) {
+            pass = c.getString(0);
+        }
+        c.close();
+        db.close();
+        return pass;
+    }
+
+    // ---------- NEW ADMIN EXTENDED METHODS ----------
+
+    public ArrayList<String[]> getAllUsers() {
+        ArrayList<String[]> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select username, email, fullname, rollno, branch, cgpa, status, tech_stack from users where role='student'", null);
+        if (c.moveToFirst()) {
+            do {
+                list.add(new String[]{c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7)});
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return list;
+    }
+
+    public void adminUpdateUser(String username, String fullname, String rollno, String branch, String cgpa, String status, String techStack) {
+        ContentValues cv = new ContentValues();
+        cv.put("fullname", fullname);
+        cv.put("rollno", rollno);
+        cv.put("branch", branch);
+        cv.put("cgpa", cgpa);
+        cv.put("status", status);
+        cv.put("tech_stack", techStack);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update("users", cv, "username=?", new String[]{username});
+        db.close();
+    }
+
+    // SLOTS METHODS
+    public void addSlot(String company, String date, String time) {
+        ContentValues cv = new ContentValues();
+        cv.put("company", company);
+        cv.put("date", date);
+        cv.put("time", time);
+        cv.put("is_booked", 0);
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert("slots", null, cv);
+        db.close();
+    }
+
+    public ArrayList<String[]> getAvailableSlots(String company) {
+        ArrayList<String[]> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select id, date, time from slots where company=? and is_booked=0", new String[]{company});
+        if (c.moveToFirst()) {
+            do {
+                list.add(new String[]{c.getString(0), c.getString(1), c.getString(2)});
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return list;
+    }
+
+    public void bookSlot(String slotId) {
+        ContentValues cv = new ContentValues();
+        cv.put("is_booked", 1);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update("slots", cv, "id=?", new String[]{slotId});
+        db.close();
+    }
+
+    public void deleteSlot(String slotId) {
+        SQLiteDatabase db = getWritableDatabase();
+        
+        // 1. Get slot details to find associated applications
+        Cursor c = db.rawQuery("select company, date, time from slots where id=?", new String[]{slotId});
+        if (c.moveToFirst()) {
+            String company = c.getString(0);
+            String date = c.getString(1);
+            String time = c.getString(2);
+            
+            // 2. Delete applications matching this slot
+            db.delete("applications", "company=? and interviewdate=? and interviewtime=?", 
+                    new String[]{company, date, time});
+        }
+        c.close();
+
+        // 3. Delete the slot itself
+        db.delete("slots", "id=?", new String[]{slotId});
+        db.close();
+    }
+
+    // CGPA REQUEST METHODS
+    public void addCgpaRequest(String username, String requestedCgpa) {
+        ContentValues cv = new ContentValues();
+        cv.put("username", username);
+        cv.put("requested_cgpa", requestedCgpa);
+        cv.put("status", "Pending");
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert("cgpa_requests", null, cv);
+        db.close();
+    }
+
+    public ArrayList<String[]> getAllCgpaRequests() {
+        ArrayList<String[]> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select id, username, requested_cgpa, status from cgpa_requests where status='Pending'", null);
+        if (c.moveToFirst()) {
+            do {
+                list.add(new String[]{c.getString(0), c.getString(1), c.getString(2), c.getString(3)});
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return list;
+    }
+
+    public void updateCgpaRequestStatus(String requestId, String newStatus) {
+        ContentValues cv = new ContentValues();
+        cv.put("status", newStatus);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update("cgpa_requests", cv, "id=?", new String[]{requestId});
+        db.close();
+    }
+
+    public void updateCgpa(String username, String cgpa) {
+        ContentValues cv = new ContentValues();
+        cv.put("cgpa", cgpa);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update("users", cv, "username=?", new String[]{username});
+        db.close();
+    }
+
+    public void updatePassword(String username, String newPassword) {
+        ContentValues cv = new ContentValues();
+        cv.put("password", newPassword);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update("users", cv, "username=?", new String[]{username});
+        db.close();
+    }
+
+    public ArrayList<String[]> getCompanySlots(String company) {
+        ArrayList<String[]> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select id, date, time, is_booked from slots where company=?", new String[]{company});
+        if (c.moveToFirst()) {
+            do {
+                list.add(new String[]{c.getString(0), c.getString(1), c.getString(2), c.getString(3)});
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return list;
+    }
+
+    public ArrayList<String[]> getAllSlots() {
+        ArrayList<String[]> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select id, company, date, time, is_booked from slots", null);
+        if (c.moveToFirst()) {
+            do {
+                list.add(new String[]{c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4)});
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return list;
+    }
+
+    public String getLatestCgpaRequestStatus(String username) {
+        String status = "";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select status, requested_cgpa from cgpa_requests where username=? order by id desc limit 1", new String[]{username});
+        if (c.moveToFirst()) {
+            status = c.getString(0) + " (" + c.getString(1) + ")";
+        }
+        c.close();
+        db.close();
+        return status;
     }
 }

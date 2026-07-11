@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F4F6FA"
+    android:fitsSystemWindows="true"
+    android:background="@color/lightBackground"
     android:padding="16dp">
 
     <TextView
@@ -13,7 +14,7 @@
         android:text="Available Jobs"
         android:textSize="26sp"
         android:textStyle="bold"
-        android:textColor="#1565C0"
+        android:textColor="@color/primaryBlue"
         android:layout_marginBottom="16dp" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -23,7 +24,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginBottom="16dp"
         app:startIconDrawable="@android:drawable/ic_menu_search"
-        app:boxBackgroundColor="#FFFFFF"
+        app:boxBackgroundColor="@color/cardBackground"
         app:boxCornerRadiusTopStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -33,8 +34,19 @@
             android:id="@+id/edSearchCompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/textDark"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvNoCompanies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No companies matching your search."
+        android:gravity="center"
+        android:textColor="@color/textGray"
+        android:layout_marginTop="50dp"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/listViewCompanies"
@@ -52,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="← BACK TO PROFILE"
-        android:textColor="#757575"
+        android:textColor="@color/textGray"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

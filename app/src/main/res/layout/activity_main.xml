@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#F4F6FA">
+    android:background="@color/lightBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:text="Campus Placement"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#1565C0"
+            android:textColor="@color/primaryBlue"
             android:gravity="center" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:textSize="18sp"
             android:letterSpacing="0.2"
             android:textStyle="bold"
-            android:textColor="#757575"
+            android:textColor="@color/textGray"
             android:layout_marginBottom="40dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -49,8 +49,8 @@
             app:cardCornerRadius="24dp"
             app:cardElevation="0dp"
             app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0"
-            app:cardBackgroundColor="#FFFFFF">
+            app:strokeColor="@color/textGray"
+            app:cardBackgroundColor="@color/cardBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,6 +70,7 @@
                         android:id="@+id/edUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/textDark"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,18 +87,20 @@
                         android:id="@+id/edPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/textDark"
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogin"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="64dp"
                     android:text="LOGIN"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:cornerRadius="12dp"
-                    android:backgroundTint="#1565C0"
+                    app:cornerRadius="16dp"
+                    android:backgroundTint="@color/primaryBlue"
+                    android:elevation="4dp"
                     android:layout_marginBottom="16dp" />
 
                 <TextView
@@ -106,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Don't have an account? Register"
-                    android:textColor="#1565C0"
+                    android:textColor="@color/primaryBlue"
                     android:textStyle="bold"
                     android:padding="8dp" />
 
@@ -119,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="🌙 Switch to Dark Mode"
-            android:textColor="#757575"
+            android:textColor="@color/textGray"
             android:layout_marginTop="32dp" />
 
     </LinearLayout>

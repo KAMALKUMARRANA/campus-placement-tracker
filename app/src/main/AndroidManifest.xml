@@ -13,13 +13,18 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.CampusPlacementTracker">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
 
         <activity android:name=".RegisterActivity" android:exported="false" />
         <activity android:name=".ProfileActivity" android:exported="false" />
@@ -27,8 +32,25 @@
         <activity android:name=".ApplyActivity" android:exported="false" />
         <activity android:name=".MyApplicationsActivity" android:exported="false" />
         <activity android:name=".ApplicationDetailsActivity" android:exported="false" />
+        <activity android:name=".ChangePasswordActivity" android:exported="false" />
+        <activity android:name=".ViewSlotsActivity" android:exported="false" />
+
+        <!-- Admin Activities -->
         <activity android:name=".AdminDashboardActivity" android:exported="false" />
         <activity android:name=".AdminManageApplicationsActivity" android:exported="false" />
+        <activity android:name=".AdminAddCompanyActivity" android:exported="false" />
+        <activity android:name=".AdminUserListActivity" android:exported="false" />
+        <activity android:name=".AdminEditUserActivity" android:exported="false" />
+        <activity android:name=".AdminEditCompanyActivity" android:exported="false" />
+        <activity android:name=".AdminManageSlotsActivity" android:exported="false" />
+        <activity android:name=".AdminManualApplyActivity" android:exported="false" />
+        <activity android:name=".AdminCgpaRequestsActivity" android:exported="false" />
+        <activity android:name=".AdminCompanyListActivity" android:exported="false" />
+        <activity android:name=".AdminCreateUserActivity" android:exported="false" />
+
+        <!-- Company Activities -->
+        <activity android:name=".CompanyDashboardActivity" android:exported="false" />
+        <activity android:name=".CompanyViewApplicationsActivity" android:exported="false" />
 
     </application>
 </manifest>

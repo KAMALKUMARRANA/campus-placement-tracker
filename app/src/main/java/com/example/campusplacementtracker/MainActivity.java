@@ -54,12 +54,14 @@ public class MainActivity extends AppCompatActivity {
                         
                         if (role.equals("admin")) {
                             startActivity(new Intent(MainActivity.this, AdminDashboardActivity.class));
+                        } else if (role.equals("company")) {
+                            startActivity(new Intent(MainActivity.this, CompanyDashboardActivity.class));
                         } else {
                             startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                         }
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Invalid username, password or account inactive", Toast.LENGTH_LONG).show();
                     }
                 }
             }

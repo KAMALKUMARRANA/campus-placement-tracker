@@ -11,16 +11,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All Student Applications"
-        android:textSize="24sp"
+        android:text="Student Management"
+        android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@color/primaryBlue"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search student or company..."
+        android:hint="Search students..."
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginBottom="16dp"
         app:startIconDrawable="@android:drawable/ic_menu_search"
@@ -31,7 +31,7 @@
         app:boxCornerRadiusBottomEnd="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edAdminSearchApps"
+            android:id="@+id/edAdminSearchUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/textDark"
@@ -39,31 +39,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tvAdminNoApps"
+        android:id="@+id/tvAdminNoUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No applications found."
+        android:text="No students registered."
         android:gravity="center"
         android:textColor="@color/textGray"
         android:layout_marginTop="50dp"
         android:visibility="gone" />
 
     <ListView
-        android:id="@+id/listViewAllApplications"
+        android:id="@+id/listViewUsers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
-        android:paddingBottom="16dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAdminBack"
+        android:id="@+id/btnUserListBack"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="64dp"
-        android:text="Back to Dashboard"
+        android:text="← BACK TO DASHBOARD"
         android:textColor="@color/textGray"
         android:layout_gravity="center_horizontal" />
 

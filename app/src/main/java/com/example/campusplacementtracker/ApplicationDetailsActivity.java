@@ -14,14 +14,15 @@ import android.widget.Toast;
 public class ApplicationDetailsActivity extends AppCompatActivity {
 
     TextView tvCompany, tvRole, tvPackage, tvEligibility, tvApplied, tvInterview;
+    TextView tvCandName, tvCandEmail, tvCandCgpa, tvCandTech;
     Spinner spinnerStatus;
     Button btnUpdate, btnDelete, btnBack;
-    View cardAdminActions;
+    View cardAdminActions, cardCandidateInfo;
 
-    String rowId, currentStatus;
+    String rowId, currentStatus, studentUsername;
     Database db;
 
-    String[] statusOptions = {"Applied", "Interview Scheduled", "Selected", "Rejected"};
+    String[] statusOptions = {"Applied", "Round 1", "Round 2", "Interview Scheduled", "Selected", "Rejected"};
 
     boolean isAdmin = false;
 
@@ -42,6 +43,12 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
         btnDelete = findViewById(R.id.btnDeleteApplication);
         btnBack = findViewById(R.id.btnDetailsBack);
         cardAdminActions = findViewById(R.id.cardAdminActions);
+        cardCandidateInfo = findViewById(R.id.cardCandidateInfo);
+
+        tvCandName = findViewById(R.id.tvCandidateName);
+        tvCandEmail = findViewById(R.id.tvCandidateEmail);
+        tvCandCgpa = findViewById(R.id.tvCandidateCgpa);
+        tvCandTech = findViewById(R.id.tvCandidateTech);
 
         db = new Database(getApplicationContext());
 
@@ -55,6 +62,7 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
         String interviewTime = it.getStringExtra("interviewtime");
         currentStatus = it.getStringExtra("status");
         rowId = it.getStringExtra("rowid");
+        studentUsername = it.getStringExtra("username");
         isAdmin = it.getBooleanExtra("isAdmin", false);
 
         tvCompany.setText(company);
@@ -63,6 +71,17 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
         tvEligibility.setText("Eligibility: " + eligibility);
         tvApplied.setText("Applied on: " + appliedDate);
         tvInterview.setText("Interview: " + interviewDate + " at " + interviewTime);
+
+        // Load candidate profile if admin/HR
+        if (isAdmin && studentUsername != null) {
+            String[] profile = db.getProfile(studentUsername);
+            // [fullname, rollno, branch, cgpa, email, role, tech_stack]
+            cardCandidateInfo.setVisibility(View.VISIBLE);
+            tvCandName.setText("Name: " + (profile[0].isEmpty() ? studentUsername : profile[0]));
+            tvCandEmail.setText("Email: " + profile[4]);
+            tvCandCgpa.setText("CGPA: " + profile[3]);
+            tvCandTech.setText("Skills: " + (profile[6].isEmpty() ? "Not Set" : profile[6]));
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, statusOptions);
         spinnerStatus.setAdapter(adapter);

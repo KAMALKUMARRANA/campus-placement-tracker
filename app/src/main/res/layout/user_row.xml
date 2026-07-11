@@ -18,32 +18,35 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/rowCompanyName"
-            android:layout_width="match_parent"
+            android:id="@+id/rowUserUsername"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:text="Username"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/primaryBlue"
-            android:text="Company Name" />
+            android:textColor="@color/primaryBlue" />
 
         <TextView
-            android:id="@+id/rowRole"
-            android:layout_width="match_parent"
+            android:id="@+id/rowUserDetails"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Name | Roll No | Branch"
             android:textSize="14sp"
             android:textColor="@color/textDark"
-            android:layout_marginTop="4dp"
-            android:text="Software Engineer" />
+            android:layout_marginTop="4dp" />
 
         <TextView
-            android:id="@+id/rowPackage"
-            android:layout_width="match_parent"
+            android:id="@+id/rowUserStatus"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/accentGreen"
+            android:text="Status: Active"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
-            android:text="Package: 5 LPA" />
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:background="#E8F5E9"
+            android:textColor="#2E7D32" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

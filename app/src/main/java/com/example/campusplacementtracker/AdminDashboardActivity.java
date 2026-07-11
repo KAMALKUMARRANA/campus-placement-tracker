@@ -1,6 +1,7 @@
 package com.example.campusplacementtracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    TextView tvTotalApps, tvSelectedApps;
-    Button btnManageApplications, btnLogout;
+    TextView tvTotalApps, tvSelectedApps, tvTotalUsers, tvTotalCompanies;
+    Button btnManageApplications, btnManageUsers, btnAddCompany, btnManageSlots, btnViewSlots, btnLogout, btnAdminCreateUser, btnAdminViewCompanies, btnCgpaRequests, btnChangePass;
     Database db;
 
     @Override
@@ -24,45 +25,71 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         tvTotalApps = findViewById(R.id.tvTotalApps);
         tvSelectedApps = findViewById(R.id.tvSelectedApps);
+        tvTotalUsers = findViewById(R.id.tvTotalUsers);
+        tvTotalCompanies = findViewById(R.id.tvTotalCompanies);
+
         btnManageApplications = findViewById(R.id.btnManageApplications);
+        btnManageUsers = findViewById(R.id.btnManageUsers);
+        btnAddCompany = findViewById(R.id.btnAddCompany);
+        btnManageSlots = findViewById(R.id.btnManageSlots);
+        btnViewSlots = findViewById(R.id.btnAdminViewSlots);
+        btnCgpaRequests = findViewById(R.id.btnAdminCgpaRequests);
+        btnAdminCreateUser = findViewById(R.id.btnAdminCreateUser);
+        btnAdminViewCompanies = findViewById(R.id.btnAdminViewCompanies);
+        btnChangePass = findViewById(R.id.btnAdminChangePass);
         btnLogout = findViewById(R.id.btnAdminLogout);
 
         db = new Database(getApplicationContext());
 
         loadStats();
 
-        btnManageApplications.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(AdminDashboardActivity.this, AdminManageApplicationsActivity.class);
-                startActivity(it);
-            }
-        });
+        btnManageApplications.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, AdminManageApplicationsActivity.class)));
+        btnManageUsers.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, AdminUserListActivity.class)));
+        btnAdminCreateUser.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, AdminCreateUserActivity.class)));
+        btnAdminViewCompanies.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, AdminCompanyListActivity.class)));
+        btnAddCompany.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, AdminAddCompanyActivity.class)));
+        btnManageSlots.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, AdminManageSlotsActivity.class)));
+        btnViewSlots.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, ViewSlotsActivity.class)));
+        btnCgpaRequests.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, AdminCgpaRequestsActivity.class)));
+        btnChangePass.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, ChangePasswordActivity.class)));
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sp = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.clear();
-                editor.apply();
-                startActivity(new Intent(AdminDashboardActivity.this, MainActivity.class));
-                finish();
+                new AlertDialog.Builder(AdminDashboardActivity.this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to logout?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        SharedPreferences sp = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.clear();
+                        editor.apply();
+                        startActivity(new Intent(AdminDashboardActivity.this, MainActivity.class));
+                        finish();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
             }
         });
     }
 
     private void loadStats() {
         ArrayList<String> apps = db.getAllApplications();
-        int total = apps.size();
+        int totalApps = apps.size();
         int selectedCount = 0;
         for (String app : apps) {
             if (app.contains("|Selected|")) {
                 selectedCount++;
             }
         }
-        tvTotalApps.setText(String.valueOf(total));
+        
+        int totalStudents = db.getAllUsers().size();
+        int totalComps = db.getCompanies().size();
+
+        tvTotalApps.setText(String.valueOf(totalApps));
         tvSelectedApps.setText(String.valueOf(selectedCount));
+        tvTotalUsers.setText(String.valueOf(totalStudents));
+        tvTotalCompanies.setText(String.valueOf(totalComps));
     }
 
     @Override
