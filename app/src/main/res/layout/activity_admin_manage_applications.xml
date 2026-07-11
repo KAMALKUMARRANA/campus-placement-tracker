@@ -11,16 +11,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Available Jobs"
-        android:textSize="26sp"
+        android:text="All Student Applications"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/primaryBlue"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search company or role..."
+        android:hint="Search student or company..."
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginBottom="16dp"
         app:startIconDrawable="@android:drawable/ic_menu_search"
@@ -31,7 +31,7 @@
         app:boxCornerRadiusBottomEnd="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edSearchCompany"
+            android:id="@+id/edAdminSearchApps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/textDark"
@@ -39,31 +39,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tvNoCompanies"
+        android:id="@+id/tvAdminNoApps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No companies matching your search."
+        android:text="No applications found."
         android:gravity="center"
         android:textColor="@color/textGray"
         android:layout_marginTop="50dp"
         android:visibility="gone" />
 
     <ListView
-        android:id="@+id/listViewCompanies"
+        android:id="@+id/listViewAllApplications"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
         android:paddingBottom="16dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnBackToProfile"
+        android:id="@+id/btnAdminBack"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="← BACK TO PROFILE"
+        android:layout_height="64dp"
+        android:text="Back to Dashboard"
         android:textColor="@color/textGray"
         android:layout_gravity="center_horizontal" />
 

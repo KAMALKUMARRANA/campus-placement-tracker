@@ -1,7 +1,5 @@
 package com.example.campusplacementtracker;
 
-
-
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +14,12 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     EditText edUsername, edPassword;
-    Button btnLogin;
+    Button btnLogin, btnThemeToggle;
     TextView tvGoRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -28,8 +27,11 @@ public class MainActivity extends AppCompatActivity {
         edPassword = findViewById(R.id.edPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvGoRegister = findViewById(R.id.tvGoRegister);
+        btnThemeToggle = findViewById(R.id.btnThemeToggle);
 
         Database db = new Database(getApplicationContext());
+
+        updateToggleButtonText();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,21 +39,29 @@ public class MainActivity extends AppCompatActivity {
                 String username = edUsername.getText().toString();
                 String password = edPassword.getText().toString();
 
-                if (username.length() == 0 || password.length() == 0) {
+                if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (db.login(username, password) == 1) {
-                        // save logged-in username so other screens know who is using the app
+                    String role = db.login(username, password);
+                    if (!role.isEmpty()) {
                         SharedPreferences sp = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("username", username);
+                        editor.putString("role", role);
                         editor.apply();
 
-                        Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                        Toast.makeText(getApplicationContext(), "Login successful as " + role, Toast.LENGTH_SHORT).show();
+                        
+                        if (role.equals("admin")) {
+                            startActivity(new Intent(MainActivity.this, AdminDashboardActivity.class));
+                        } else if (role.equals("company")) {
+                            startActivity(new Intent(MainActivity.this, CompanyDashboardActivity.class));
+                        } else {
+                            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                        }
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Invalid username, password or account inactive", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -63,5 +73,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, RegisterActivity.class));
             }
         });
+
+        btnThemeToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ThemeHelper.toggleTheme(MainActivity.this);
+                recreate();
+            }
+        });
+    }
+
+    private void updateToggleButtonText() {
+        if (ThemeHelper.isDarkMode(this)) {
+            btnThemeToggle.setText("☀ Switch to Light Mode");
+        } else {
+            btnThemeToggle.setText("🌙 Switch to Dark Mode");
+        }
     }
 }
